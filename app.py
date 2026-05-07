@@ -18,7 +18,6 @@ st.markdown("""
     /* Hide default Streamlit elements for a clean app feel */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    header {visibility: hidden;}
     
     /* Clean background */
     .stApp {
@@ -90,6 +89,11 @@ st.markdown("""
     h1, h2, h3 {
         color: #2d3748;
         font-weight: 700;
+    }
+    
+    /* Disable Mobile Pull-to-Refresh */
+    body, html, .stApp {
+        overscroll-behavior-y: contain !important;
     }
 </style>
 """, unsafe_allow_html=True)
