@@ -791,7 +791,7 @@ else:
                         conn.commit()
                         st.success("Review saved successfully!")
                         st.rerun()
-    
+        st.stop()
     
     #PROFILE
     if menu == t("profile"):
