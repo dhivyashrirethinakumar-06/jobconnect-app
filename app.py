@@ -9,7 +9,7 @@ from datetime import datetime
 import requests
 import os 
 import time
-from streamlit_autorefresh import st_autorefresh
+
 
 st.set_page_config(page_title="Job Portal", layout="wide", initial_sidebar_state="expanded")
 
