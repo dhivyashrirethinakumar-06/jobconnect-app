@@ -15,10 +15,10 @@ st.set_page_config(page_title="Job Portal", layout="wide", initial_sidebar_state
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif !important;
+        font-family: 'Poppins', sans-serif !important;
     }
 
     /* Hide default Streamlit elements for a clean app feel */
@@ -28,6 +28,14 @@ st.markdown("""
     /* Clean background */
     .stApp {
         background-color: #f8fafc;
+    }
+    
+    /* Sidebar Styling to match Primary Blue */
+    [data-testid="stSidebar"] {
+        background-color: #0F4C81 !important;
+    }
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] label {
+        color: #ffffff !important;
     }
     
     /* Input fields styling */
@@ -40,40 +48,42 @@ st.markdown("""
         transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
     }
     .stTextInput>div>div>input:focus, .stTextArea>div>div>textarea:focus, .stSelectbox>div>div>div:focus {
-        border-color: #3b82f6 !important;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+        border-color: #FF7A00 !important;
+        box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.15) !important;
     }
     
-    /* Global Buttons */
+    /* Global Buttons (Outline Primary Blue) */
     .stButton>button {
         border-radius: 8px !important;
         font-weight: 500 !important;
         background-color: #ffffff !important;
-        color: #334155 !important;
-        border: 1px solid #cbd5e1 !important;
+        color: #0F4C81 !important;
+        border: 2px solid #0F4C81 !important;
         padding: 8px 16px !important;
         transition: all 0.2s ease !important;
         box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
     }
     .stButton>button:hover {
         background-color: #f8fafc !important;
-        border-color: #94a3b8 !important;
+        border-color: #FF7A00 !important;
+        color: #FF7A00 !important;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
-        color: #0f172a !important;
     }
-    /* Primary buttons */
+    
+    /* Primary buttons (Solid Accent Orange) */
     button[kind="primary"] {
-        background-color: #2563eb !important;
+        background-color: #FF7A00 !important;
         color: #ffffff !important;
-        border: 1px solid #1d4ed8 !important;
+        border: 2px solid #FF7A00 !important;
     }
     button[kind="primary"]:hover {
-        background-color: #1d4ed8 !important;
-        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2) !important;
+        background-color: #e66d00 !important;
+        border-color: #e66d00 !important;
+        box-shadow: 0 4px 6px -1px rgba(255, 122, 0, 0.2) !important;
         color: #ffffff !important;
     }
     
-    /* Advanced Custom Cards */
+    /* Advanced Custom Cards (Legacy) */
     .custom-card {
         background: #ffffff;
         padding: 24px;
@@ -97,7 +107,62 @@ st.markdown("""
         border: 1px solid #e2e8f0 !important;
     }
     
-    /* Status Badges */
+    /* Native Container Cards */
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-radius: 12px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 15px !important;
+        background-color: #ffffff !important;
+        height: 100%;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    [data-testid="stVerticalBlockBorderWrapper"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Sidebar Navigation Links */
+    [data-testid="stSidebar"] .stRadio > div {
+        gap: 0px;
+    }
+    [data-testid="stSidebar"] .stRadio label {
+        padding: 12px 16px !important;
+        color: #ffffff !important;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+    }
+    [data-testid="stSidebar"] .stRadio label:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    [data-testid="stSidebar"] .stRadio div[data-testid="stMarkdownContainer"] p {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        color: white !important;
+    }
+    /* Hide the actual radio circle */
+    [data-testid="stSidebar"] .stRadio input, [data-testid="stSidebar"] .stRadio div[role="radio"] {
+        display: none !important;
+    }
+    
+    /* Sidebar Logout/Standard Buttons */
+    [data-testid="stSidebar"] button[kind="secondary"] {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        justify-content: flex-start !important;
+        padding: 12px 16px !important;
+    }
+    [data-testid="stSidebar"] button[kind="secondary"] p {
+        color: white !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+    }
+    [data-testid="stSidebar"] button[kind="secondary"]:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+    }
     .status-badge {
         display: inline-block;
         padding: 4px 10px;
@@ -108,7 +173,7 @@ st.markdown("""
     }
     
     h1, h2, h3, h4, h5, h6 {
-        color: #0f172a;
+        color: #0F4C81 !important;
         font-weight: 600;
         letter-spacing: -0.025em;
     }
@@ -935,32 +1000,31 @@ else:
         
         if matches:
             st.success(f"**{len(matches)} {t('perfect_matches')}**")
+            cols = st.columns(3)
             for i, match in enumerate(matches):
                 if match['type'] == 'job':
                     job = match['job']
                     creator = match['creator']
-                    skills_html = " ".join([f"<span class='skill-tag'>{s.strip()}</span>" for s in job['skills'].split(',') if s.strip()])
                     
-                    st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
-                    col1, col2 = st.columns([3,1])
-                    with col1:
-                        st.markdown(f"<h3 style='margin:0;'>{job['title']}</h3>", unsafe_allow_html=True)
-                        st.markdown(f"<p style='color:gray; font-size:14px;'> {creator.get('name', 'Unknown')}</p>", unsafe_allow_html=True)
-                        st.markdown(f"**{job['location']}** &nbsp;|&nbsp; **{job['salary']}**")
-                        st.markdown(f"<div style='margin-top:10px;'>{skills_html}</div>", unsafe_allow_html=True)
-                    with col2:
-                        st.metric(t("score"), match['score'])
-                        if creator and creator.get('mobile'):
-                            if st.button(t('chat'), key=f"chat_job_seeker_{i}", use_container_width=True):
-                                st.session_state.current_chat = {
-                                    'other_user': creator,
-                                    'job_id': job['id'],
-                                    'job_title': job['title']
-                                }
-                                st.rerun()
-                        else:
-                            st.warning("Invalid creator")
-                    st.markdown("</div>", unsafe_allow_html=True)
+                    with cols[i % 3]:
+                        with st.container(border=True):
+                            st.markdown(f"<h4 style='margin:0;color:#0F4C81;'>{job['title']}</h4>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:0;font-size:13px;color:#64748b;'>{creator.get('name', 'Unknown')}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:5px 0;font-size:13px;'>📍 {job['location']}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:0;font-size:14px;font-weight:600;'>{job['salary']}</p>", unsafe_allow_html=True)
+                            
+                            st.markdown("<br>", unsafe_allow_html=True)
+                            
+                            if creator and creator.get('mobile'):
+                                if st.button("Apply Now", key=f"chat_job_seeker_{i}", use_container_width=True, type="primary"):
+                                    st.session_state.current_chat = {
+                                        'other_user': creator,
+                                        'job_id': job['id'],
+                                        'job_title': job['title']
+                                    }
+                                    st.rerun()
+                            else:
+                                st.warning("Invalid creator")
         else:
             st.info(t("no_matches"))
 
@@ -1022,25 +1086,26 @@ else:
         if not seekers_df.empty:
             st.success(f"**Found {len(seekers_df)} Job Seekers!**")
             
+            cols = st.columns(3)
             for seeker_idx, seeker_row in seekers_df.iterrows():
                 seeker = seeker_row.to_dict()
-                st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
                 
-                col1, col2, col3 = st.columns([1,4,3])
-                with col1:
-                    st.markdown("<div style='font-size:40px;text-align:center;'></div>", unsafe_allow_html=True)
-                with col2:
-                    st.markdown(f"**{seeker.get('name', 'Unknown')}** | {mask_contact(seeker.get('mobile'))}<br>{seeker.get('location', 'N/A')} | {seeker.get('skills', 'N/A')[:50]}", unsafe_allow_html=True)
-                
-                with col3:
-                    if st.button("Chat", key=f"chat_glb_{seeker_idx}", use_container_width=True):
-                        st.session_state.current_chat = {
-                            'other_user': seeker, 
-                            'job_id': 0, 
-                            'job_title': 'Direct Message'
-                        }
-                        st.rerun()
-                st.markdown("</div>", unsafe_allow_html=True)
+                with cols[seeker_idx % 3]:
+                    with st.container(border=True):
+                        st.markdown(f"<h4 style='margin:0;color:#0F4C81;'>{seeker.get('name', 'Unknown')}</h4>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:0;font-size:13px;color:#64748b;'>{mask_contact(seeker.get('mobile'))}</p>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:5px 0;font-size:13px;'>📍 {seeker.get('location', 'N/A')}</p>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:0;font-size:14px;font-weight:600;'>{seeker.get('skills', 'N/A')[:50]}</p>", unsafe_allow_html=True)
+                        
+                        st.markdown("<br>", unsafe_allow_html=True)
+                        
+                        if st.button("Chat", key=f"chat_glb_{seeker_idx}", use_container_width=True, type="primary"):
+                            st.session_state.current_chat = {
+                                'other_user': seeker, 
+                                'job_id': 0, 
+                                'job_title': 'Direct Message'
+                            }
+                            st.rerun()
         else:
             st.info("No job seekers found matching your criteria.")
 
@@ -1054,52 +1119,49 @@ else:
             for job_idx, job_match in enumerate(job_matches):
                 job = job_match['job']
                 seekers = job_match['seekers']
-                skills_html = " ".join([f"<span class='skill-tag'>{s.strip()}</span>" for s in job['skills'].split(',') if s.strip()])
+                st.markdown(f"<h3 style='color:#0F4C81;'>{job['title']} <span style='font-size:16px;color:#64748b;'>({job['location']})</span></h3>", unsafe_allow_html=True)
                 
-                st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
-                st.markdown(f"<h3 style='margin:0;'>{job['title']}</h3>", unsafe_allow_html=True)
-                st.markdown(f"**{job['location']}** &nbsp;|&nbsp; **{job['salary']}**")
-                st.markdown(f"<div style='margin-top:10px;'>{skills_html}</div>", unsafe_allow_html=True)
-                
-                st.markdown(f"#### **{len(seekers)} {t('matched_seekers')}**")
+                cols = st.columns(3)
                 for seeker_idx, seeker_match in enumerate(seekers):
                     seeker = seeker_match['seeker']
                     score = seeker_match['score']
                     hired_status = get_hired_status(job['id'], seeker['mobile'])
                     
-                    c1, c2, c3 = st.columns([1,4,2])
-                    with c1: st.markdown("<div style='font-size:40px;text-align:center;'></div>", unsafe_allow_html=True)
-                    with c2: 
-                        st.markdown(f"**{seeker.get('name', 'Unknown')}** | {mask_contact(seeker.get('mobile'))}")
-                        if hired_status == 'hired':
-                            st.markdown("<span style='color:#10b981;font-weight:bold;background:#d1fae5;padding:3px 8px;border-radius:5px;'>Hired for this Job</span>", unsafe_allow_html=True)
-                        elif hired_status == 'finished':
-                            st.markdown("<span style='color:#f59e0b;font-weight:bold;background:#fef3c7;padding:3px 8px;border-radius:5px;'>Job Completed</span>", unsafe_allow_html=True)
+                    with cols[seeker_idx % 3]:
+                        with st.container(border=True):
+                            st.markdown(f"<h4 style='margin:0;color:#0F4C81;'>{seeker.get('name', 'Unknown')}</h4>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:0;font-size:13px;color:#64748b;'>{seeker.get('location', 'N/A')}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:5px 0;font-size:13px;'>{seeker.get('skills', 'N/A')[:50]}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:0;font-size:14px;font-weight:600;'>Match: {score}</p>", unsafe_allow_html=True)
                             
-                    with c3:
-                        st.metric(t("score"), score)
-                        
-                        if not hired_status:
-                            c_btn1, c_btn2 = st.columns(2)
-                            with c_btn1:
-                                if st.button("Hire", key=f"hire_my_{job['id']}_{seeker_idx}", use_container_width=True):
-                                    hire_seeker(job['id'], seeker['mobile'])
-                                    st.rerun()
-                            with c_btn2:
-                                if st.button("Chat", key=f"chat_my_{job['id']}_{seeker_idx}", use_container_width=True):
-                                    st.session_state.current_chat = {'other_user': seeker, 'job_id': job['id'], 'job_title': job['title']}
-                                    st.rerun()
-                        elif hired_status == 'hired':
-                            c_btn1, c_btn2 = st.columns(2)
-                            with c_btn1:
-                                if st.button("Finish", key=f"fin_my_{job['id']}_{seeker_idx}", use_container_width=True):
-                                    st.session_state.reviewing_job = {'job_id': job['id'], 'seeker': seeker}
-                                    st.rerun()
-                            with c_btn2:
-                                if st.button("Chat", key=f"chat_hired_my_{job['id']}_{seeker_idx}", use_container_width=True):
-                                    st.session_state.current_chat = {'other_user': seeker, 'job_id': job['id'], 'job_title': job['title']}
-                                    st.rerun()
-                st.markdown("</div>", unsafe_allow_html=True)
+                            if hired_status == 'hired':
+                                st.markdown("<p style='color:#10b981;font-size:12px;font-weight:bold;margin:5px 0;'>Hired for this Job</p>", unsafe_allow_html=True)
+                            elif hired_status == 'finished':
+                                st.markdown("<p style='color:#f59e0b;font-size:12px;font-weight:bold;margin:5px 0;'>Job Completed</p>", unsafe_allow_html=True)
+                            else:
+                                st.markdown("<br>", unsafe_allow_html=True)
+                            
+                            if not hired_status:
+                                c_btn1, c_btn2 = st.columns(2)
+                                with c_btn1:
+                                    if st.button("Hire", key=f"hire_my_{job['id']}_{seeker_idx}", use_container_width=True, type="primary"):
+                                        hire_seeker(job['id'], seeker['mobile'])
+                                        st.rerun()
+                                with c_btn2:
+                                    if st.button("Chat", key=f"chat_my_{job['id']}_{seeker_idx}", use_container_width=True):
+                                        st.session_state.current_chat = {'other_user': seeker, 'job_id': job['id'], 'job_title': job['title']}
+                                        st.rerun()
+                            elif hired_status == 'hired':
+                                c_btn1, c_btn2 = st.columns(2)
+                                with c_btn1:
+                                    if st.button("Finish", key=f"fin_my_{job['id']}_{seeker_idx}", use_container_width=True, type="primary"):
+                                        st.session_state.reviewing_job = {'job_id': job['id'], 'seeker': seeker}
+                                        st.rerun()
+                                with c_btn2:
+                                    if st.button("Chat", key=f"chat_hired_my_{job['id']}_{seeker_idx}", use_container_width=True):
+                                        st.session_state.current_chat = {'other_user': seeker, 'job_id': job['id'], 'job_title': job['title']}
+                                        st.rerun()
+                st.markdown("<hr style='border-top:1px solid #e2e8f0; margin: 30px 0;'>", unsafe_allow_html=True)
         else:
             st.info(t("no_seekers"))
 
@@ -1108,24 +1170,25 @@ else:
         st.header(t("my_posted_jobs"))
         jobs = get_posted_jobs(st.session_state.user['mobile'])
         if not jobs.empty:
+            cols = st.columns(3)
             for idx, job in jobs.iterrows():
-                col1, col2 = st.columns([4, 1])
-                with col1:
-                    st.markdown(f"""
-                    <div style='background:#fff3e0;padding:20px;border-radius:15px;margin:10px 0;border-left:5px solid #ff9800;box-shadow:0 4px 12px rgba(0,0,0,0.1)'>
-                    <h4><strong>{job['title']}</strong></h4>
-                    <p><strong>{t('salary')}</strong> {job['salary']} | <strong>{t('location')}</strong> {job['location']}</p>
-                    <p><strong>{t('skills_req')}</strong> {job['skills']}</p>
-                    <small>{job['created_at'][:10]}</small>
-                    </div>""", unsafe_allow_html=True)
-                with col2:
-                    if st.button("Delete", key=f"del_job_{job['id']}", help=t("delete"), use_container_width=True):
-                        success, msg = delete_job(job['id'], st.session_state.user['mobile'])
-                        if success:
-                            st.success(msg)
-                            st.rerun()
-                        else:
-                            st.error(msg)
+                with cols[idx % 3]:
+                    with st.container(border=True):
+                        st.markdown(f"<h4 style='margin:0;color:#0F4C81;'>{job['title']}</h4>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:0;font-size:13px;color:#64748b;'>{job['created_at'][:10]}</p>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:5px 0;font-size:13px;'>📍 {job['location']}</p>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:5px 0;font-size:13px;'>{job['skills']}</p>", unsafe_allow_html=True)
+                        st.markdown(f"<p style='margin:0;font-size:14px;font-weight:600;'>{job['salary']}</p>", unsafe_allow_html=True)
+                        
+                        st.markdown("<br>", unsafe_allow_html=True)
+                        
+                        if st.button("Delete Job", key=f"del_job_{job['id']}", help=t("delete"), use_container_width=True):
+                            success, msg = delete_job(job['id'], st.session_state.user['mobile'])
+                            if success:
+                                st.success(msg)
+                                st.rerun()
+                            else:
+                                st.error(msg)
         else:
             st.info(t("no_jobs"))
 
@@ -1254,23 +1317,20 @@ else:
                 cols = st.columns(2)
                 for idx, row in schemes_df.iterrows():
                     with cols[idx % 2]:
-                        st.markdown(f"""
-                        <div class='custom-card'>
-                            <h4 style='color:#1976d2;margin-top:0;'>{row['name']}</h4>
-                            <p style='margin-bottom:5px;'><strong>{t('trade')}:</strong> {row['trade']}</p>
-                            <p style='font-size:14px;'>{row['description']}</p>
-                            <div style='background:#f5f5f5;padding:10px;border-radius:8px;font-size:13px;'>
-                                <strong>{t('benefits')}:</strong><br>{row['benefits']}
-                            </div>
-                        </div>""", unsafe_allow_html=True)
-                        if st.button(t('delete'), key=f"del_{idx}"):
-                            try:
-                                schemes_df = schemes_df.drop(idx).reset_index(drop=True)  # ✅ SAFE NOW
-                                save_scheme(schemes_df)
-                                st.success("Scheme deleted!")
-                                st.rerun()
-                            except Exception as e:
-                                st.error(f"Delete failed: {str(e)}")
+                        with st.container(border=True):
+                            st.markdown(f"<h4 style='color:#0F4C81;margin:0;'>{row['name']}</h4>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin-bottom:5px;font-size:13px;color:#64748b;'>{row['trade']}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='font-size:14px;margin-bottom:10px;'>{row['description']}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<div style='background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;'><strong>{t('benefits')}:</strong><br>{row['benefits']}</div>", unsafe_allow_html=True)
+                            st.markdown("<br>", unsafe_allow_html=True)
+                            if st.button(t('delete'), key=f"del_{idx}", use_container_width=True):
+                                try:
+                                    schemes_df = schemes_df.drop(idx).reset_index(drop=True)
+                                    save_scheme(schemes_df)
+                                    st.success("Scheme deleted!")
+                                    st.rerun()
+                                except Exception as e:
+                                    st.error(f"Delete failed: {str(e)}")
         
         else:  
             st.header(t("gov_schemes"))
@@ -1283,15 +1343,11 @@ else:
                     cols = st.columns(2)
                     for idx, scheme in matching_schemes.reset_index(drop=True).iterrows():
                         with cols[idx % 2]:
-                            st.markdown(f"""
-                            <div class='custom-card' style='border-top-color:#4caf50;'>
-                                <h3 style='color:#388e3c;margin-top:0;'>{scheme['name']}</h3>
-                                <p style='margin-bottom:5px;'><span class='skill-tag'>{scheme['trade']}</span></p>
-                                <p style='font-size:14px;color:#555;'>{scheme['description']}</p>
-                                <div style='background:#e8f5e9;padding:10px;border-radius:8px;font-size:13px;'>
-                                    <strong>{t('benefits')}:</strong><br>{scheme['benefits']}
-                                </div>
-                            </div>""", unsafe_allow_html=True)
+                            with st.container(border=True):
+                                st.markdown(f"<h4 style='color:#0F4C81;margin:0;'>{scheme['name']}</h4>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='margin-bottom:5px;font-size:13px;color:#64748b;'>{scheme['trade']}</p>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='font-size:14px;margin-bottom:10px;'>{scheme['description']}</p>", unsafe_allow_html=True)
+                                st.markdown(f"<div style='background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;'><strong>{t('benefits')}:</strong><br>{scheme['benefits']}</div>", unsafe_allow_html=True)
                 else:
                     st.info(t("no_schemes"))
             else:
