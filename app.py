@@ -15,85 +15,112 @@ st.set_page_config(page_title="Job Portal", layout="wide", initial_sidebar_state
 
 st.markdown("""
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif !important;
+    }
+
     /* Hide default Streamlit elements for a clean app feel */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
     /* Clean background */
     .stApp {
-        background-color: #f4f7f6;
+        background-color: #f8fafc;
     }
     
     /* Input fields styling */
-    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea, .stSelectbox>div>div>div {
         border-radius: 8px !important;
-        border: 1px solid #d1d5db !important;
-        box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-        padding: 10px 15px !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02) !important;
+        padding: 10px 14px !important;
+        font-size: 14px !important;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
     }
-    .stTextInput>div>div>input:focus, .stTextArea>div>div>textarea:focus {
-        border-color: #4facfe !important;
-        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2) !important;
+    .stTextInput>div>div>input:focus, .stTextArea>div>div>textarea:focus, .stSelectbox>div>div>div:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
     }
     
     /* Global Buttons */
     .stButton>button {
         border-radius: 8px !important;
-        font-weight: 600 !important;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        color: white !important;
-        border: none !important;
-        padding: 10px 20px !important;
-        transition: transform 0.2s, box-shadow 0.2s !important;
+        font-weight: 500 !important;
+        background-color: #ffffff !important;
+        color: #334155 !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 8px 16px !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.03) !important;
     }
     .stButton>button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3) !important;
+        background-color: #f8fafc !important;
+        border-color: #94a3b8 !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+        color: #0f172a !important;
+    }
+    /* Primary buttons */
+    button[kind="primary"] {
+        background-color: #2563eb !important;
+        color: #ffffff !important;
+        border: 1px solid #1d4ed8 !important;
+    }
+    button[kind="primary"]:hover {
+        background-color: #1d4ed8 !important;
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2) !important;
+        color: #ffffff !important;
     }
     
     /* Advanced Custom Cards */
     .custom-card {
         background: #ffffff;
         padding: 24px;
-        border-radius: 16px !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        border: 1px solid #f3f4f6;
-        border-top: 5px solid #667eea;
-        margin-bottom: 20px;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        border-radius: 12px !important;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e8f0;
+        margin-bottom: 24px;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
     }
     .custom-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        transform: translateY(-2px);
     }
     
     /* Fallback Card-like containers for Streamlit Forms */
     div[data-testid="stForm"] {
-        border-radius: 16px !important;
+        border-radius: 12px !important;
         background: white !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
-        padding: 20px !important;
-        border: 1px solid #f3f4f6 !important;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+        padding: 24px !important;
+        border: 1px solid #e2e8f0 !important;
     }
     
     /* Status Badges */
     .status-badge {
         display: inline-block;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 13px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 12px;
         font-weight: 600;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.3px;
     }
     
-    h1, h2, h3 {
-        color: #2d3748;
-        font-weight: 700;
+    h1, h2, h3, h4, h5, h6 {
+        color: #0f172a;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+    }
+    
+    p {
+        color: #475569;
     }
     
     /* Disable Mobile Pull-to-Refresh */
     body, html, .stApp {
-        overscroll-behavior-y: contain !important;
+        overscroll-behavior-y: none !important;
+        overscroll-behavior: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -156,7 +183,7 @@ conn = init_db()
 #TRANSLATIONS
 TRANSLATIONS = {
     "eng": {
-        "title": "Job Connect", "lang_title": "🌐 Language", "english": "English", "tamil": "தமிழ்",
+        "title": "Job Connect", "lang_title": "Language", "english": "English", "tamil": "தமிழ்",
         "menu": "Menu", "login": "Login", "register": "Register", "job_seeker": "Job Seeker", 
         "job_creator": "Job Creator", "admin": "Admin", "name": "Full Name", "org_name": "Organization Name",
         "mobile": "Mobile Number", "aadhar": "Aadhar Number", "skills": "Skills", "experience": "Experience",
@@ -175,7 +202,7 @@ TRANSLATIONS = {
         "seeker_reg": "Seeker Registered!", "creator_reg": "Creator Registered!", "logged_out": "Logged out!",
         "invalid_credentials": "Invalid credentials", "admin_login": "Admin: 9999999999/admin123",
         "user_exists": "User exists! Login instead.", "no_jobs": "No jobs posted yet!", "apply": "Apply Now",
-        "update_success": "✅ Profile updated successfully!", "contact": "***", "no_seekers": "No seekers matched yet!",
+        "update_success": "Profile updated successfully!", "contact": "***", "no_seekers": "No seekers matched yet!",
         "type_message": "Type a message...", "send": "Send", "no_chat": "No messages yet. Say Hi! ","gov_schemes": "Government Schemes", 
         "add_scheme": "Add Scheme", "scheme_name": "Scheme Name", "trade": "Trade/Skill", 
         "description": "Description", "benefits": "Benefits", "delete": "Delete", 
@@ -184,7 +211,7 @@ TRANSLATIONS = {
 
     },
     "tam": {
-        "title": "வேலைவாய்ப்பு தளம்", "lang_title": "🌐 மொழி", "english": "ஆங்கிலம்", "tamil": "தமிழ்",
+        "title": "வேலைவாய்ப்பு தளம்", "lang_title": "மொழி", "english": "ஆங்கிலம்", "tamil": "தமிழ்",
         "menu": "மெனு", "login": "உள்நுழையவும்", "register": "பதிவு", "job_seeker": "வேலை தேடுபவர்", 
         "job_creator": "வேலை வழங்குபவர்", "admin": "நிர்வாகி", "name": "முழு பெயர்", "org_name": "நிறுவன பெயர்",
         "mobile": "மொபைல்", "aadhar": "ஆதார்", "skills": "திறன்கள்", "experience": "அனுபவம்",
@@ -205,7 +232,7 @@ TRANSLATIONS = {
         "creator_reg": "வேலை வழங்குபவர் பதிவு!", "logged_out": "வெளியேறினீர்கள்!",
         "invalid_credentials": "தவறான விவரங்கள்", "admin_login": "நிர்வாகி: 9999999999/admin123",
         "user_exists": "பயனர் உள்ளார்! உள்நுழையவும்.", "no_jobs": "வேலைகள் இல்லை!", "apply": "விண்ணப்பி",
-        "update_success": "✅ சுயவிவரம் மேம்படுத்தப்பட்டது!", "contact": "***", "no_seekers": "இன்னும் பொருத்த வேலை தேடுபவர்கள் இல்லை!",
+        "update_success": "சுயவிவரம் மேம்படுத்தப்பட்டது!", "contact": "***", "no_seekers": "இன்னும் பொருத்த வேலை தேடுபவர்கள் இல்லை!",
         "type_message": "செய்தி டைப் செய்யுங்கள்...", "send": "அனுப்பு", "no_chat": "இன்னும் செய்திகள் இல்லை. ஹாய் சொல்லுங்கள்! ","gov_schemes": "அரசு திட்டங்கள்", "add_scheme": "திட்டம் சேர்", "scheme_name": "திட்ட பெயர்", 
         "trade": "தொழில்/திறன்", "description": "விளக்கம்", "benefits": "நன்மைகள்", 
         "delete": "அழி", "search_schemes": "திட்டங்கள் தேடு", "no_schemes": "திட்டங்கள் இல்லை!", 
@@ -541,7 +568,7 @@ if not st.session_state.user:
                     user = find_user(mobile)
                     if user and user['password'] == password:
                         st.session_state.user = user
-                        st.success(f"✅ {t('welcome')} {user['name']}!")
+                        st.success(f"{t('welcome')} {user['name']}!")
                         st.rerun()
                     else:
                         st.error(t("invalid_credentials"))
@@ -550,7 +577,7 @@ if not st.session_state.user:
     elif menu == t("register"):
         _, col2, _ = st.columns([1, 3, 1])
         with col2:
-            st.markdown(f"<h2 style='text-align:center;'>📝 Create an Account</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='text-align:center;'>Create an Account</h2>", unsafe_allow_html=True)
             role_choice = st.radio("Register as:", [t("job_seeker"), t("job_creator")], horizontal=True)
             
             if role_choice == t("job_seeker"):
@@ -565,7 +592,7 @@ if not st.session_state.user:
                         location = st.text_input(t("location"))
                         experience = st.text_area(t("experience"), height=68)
                     
-                    work_photo = st.file_uploader("📸 " + t("work_photo"), type=['jpg','png','jpeg'])
+                    work_photo = st.file_uploader(t("work_photo"), type=['jpg','png','jpeg'])
                     if work_photo:
                         st.image(work_photo, caption=t("preview"), width=200)
                     
@@ -579,7 +606,7 @@ if not st.session_state.user:
                     
                     if send_otp and len(mobile)==10 and mobile.isdigit():
                         st.session_state.otp_store[mobile] = "123456"
-                        st.success("✅ OTP sent! (Use **123456**)")
+                        st.success("OTP sent! (Use **123456**)")
                     
                     if submitted and otp == "123456":
                         work_image = work_photo.read() if work_photo else None
@@ -607,7 +634,7 @@ if not st.session_state.user:
                     
                     if send_otp and len(mobile)==10 and mobile.isdigit():
                         st.session_state.otp_store[mobile] = "123456"
-                        st.success("✅ OTP sent! (Use **123456**)")
+                        st.success("OTP sent! (Use **123456**)")
                     
                     if submitted and otp == "123456":
                         if save_user({
@@ -622,7 +649,7 @@ else:
     st.sidebar.title(f"{t('Hii')} {st.session_state.user['name']}")
     st.sidebar.markdown(f"**{t('role_label')}:** {st.session_state.user['role']}")
     st.sidebar.markdown("---")
-    if st.sidebar.button(f"🚪 {t('logout')}", use_container_width=True):
+    if st.sidebar.button(t('logout'), use_container_width=True):
         st.session_state.user = None
         st.session_state.current_chat = None
         st.rerun()
@@ -640,7 +667,7 @@ else:
     
     unread_count, latest_msg = check_unread_messages(st.session_state.user['mobile'])
     if unread_count > 0:
-        if st.sidebar.button(f"🔔 {unread_count} New Message(s)!", type="primary", use_container_width=True):
+        if st.sidebar.button(f"{unread_count} New Message(s)", type="primary", use_container_width=True):
             other_user = find_user(latest_msg['sender_mobile'])
             job_df = pd.read_sql("SELECT title FROM jobs WHERE id=?", conn, params=(int(latest_msg['job_id']),))
             job_title = job_df.iloc[0]['title'] if not job_df.empty else "Job Chat"
@@ -661,12 +688,12 @@ else:
         """, unsafe_allow_html=True)
         st.markdown(f"""
         <div style='background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);padding:20px;border-radius:0 0 20px 20px;color:white;text-align:center'>
-            <h1 style='margin:0'>💬 {t('chat')} - {st.session_state.current_chat.get('job_title', 'Chat')}</h1>
+            <h1 style='margin:0'>{t('chat')} - {st.session_state.current_chat.get('job_title', 'Chat')}</h1>
         </div>
         """, unsafe_allow_html=True)
         col1, col2 = st.columns([1, 8])
         with col1:
-            if st.button("⬅️ Back", use_container_width=True):
+            if st.button("Back", use_container_width=True):
                 st.session_state.current_chat = None
                 st.rerun()
     
@@ -675,41 +702,23 @@ else:
         job_id = st.session_state.current_chat.get('job_id')
     
         if not other_user or not other_user.get('mobile'):
-            st.error("❌ Invalid chat partner!")
+            st.error("Invalid chat partner!")
             st.session_state.current_chat = None
             st.rerun()
             st.stop()
         st.markdown(f"""
         <div style='background:#f8f9fa;padding:15px;border-radius:15px;border-left:5px solid #667eea;margin:20px 0'>
-            <h3>👤 **{other_user.get('name', 'Unknown')}**</h3>
-            <p>📞 {mask_contact(other_user.get('mobile'))} | 📍 {other_user.get('location', 'N/A')}</p>
+            <h3>**{other_user.get('name', 'Unknown')}**</h3>
+            <p>{mask_contact(other_user.get('mobile'))} | {other_user.get('location', 'N/A')}</p>
         </div>
         """, unsafe_allow_html=True)
     
         #CHAT HISTORY
-        st_autorefresh(interval=3000, key="chat_refresh")
         chat_container = st.container(height=450)
 
-        col_clear, _ = st.columns([1, 4])
-        with col_clear:
-            if st.button("🗑️ Clear Chat", use_container_width=True):
-                current_user = st.session_state.user
-                other_user = st.session_state.current_chat.get('other_user')
-                job_id = st.session_state.current_chat.get('job_id')
-        
-                pd.read_sql_query("""
-                    DELETE FROM chats WHERE 
-                    ((user1_mobile=? AND user2_mobile=?) OR (user1_mobile=? AND user2_mobile=?))
-                    AND job_id=?
-                """, conn, params=[current_user['mobile'], other_user['mobile'], 
-                          other_user['mobile'], current_user['mobile'], job_id])
-                conn.commit()
-                st.success("✅ Chat cleared!")
-                st.rerun()
-
-        with chat_container:
+        @st.fragment(run_every="3s")
+        def render_chat_history():
             chat_history = get_chat_history(current_user['mobile'], other_user['mobile'], job_id, current_user['mobile'])
-    
             if chat_history:
                 for msg in chat_history:
                     if msg.get('sender_mobile') == current_user['mobile']:
@@ -729,8 +738,28 @@ else:
             else:
                 st.markdown(f"""
                 <div style='height:350px;display:flex;align-items:center;justify-content:center;color:#666;text-align:center'>
-                    <div><div style='font-size:50px;margin-bottom:15px'>💬</div><h3>{t('no_chat')}</h3></div>
+                    <div><h3>{t('no_chat')}</h3></div>
                 </div>""", unsafe_allow_html=True)
+
+        col_clear, _ = st.columns([1, 4])
+        with col_clear:
+            if st.button("Clear Chat", use_container_width=True):
+                current_user = st.session_state.user
+                other_user = st.session_state.current_chat.get('other_user')
+                job_id = st.session_state.current_chat.get('job_id')
+        
+                pd.read_sql_query("""
+                    DELETE FROM chats WHERE 
+                    ((user1_mobile=? AND user2_mobile=?) OR (user1_mobile=? AND user2_mobile=?))
+                    AND job_id=?
+                """, conn, params=[current_user['mobile'], other_user['mobile'], 
+                          other_user['mobile'], current_user['mobile'], job_id])
+                conn.commit()
+                st.success("Chat cleared!")
+                st.rerun()
+
+        with chat_container:
+            render_chat_history()
     
         st.markdown("---")
         # Use Streamlit's native chat input for reliable messaging (handles 'Enter' to send automatically)
@@ -741,7 +770,7 @@ else:
 
         if current_user['role'] == 'Job Creator':
             st.markdown("---")
-            with st.expander("✅ Mark Job Complete & Review Seeker"):
+            with st.expander("Mark Job Complete & Review Seeker"):
                 with st.form("review_form"):
                     st.write(f"Review for {other_user.get('name', 'Seeker')}")
                     rating = st.slider("Rating", 1, 5, 5)
@@ -760,7 +789,7 @@ else:
                             'timestamp': datetime.now()
                         }]).to_sql('reviews', conn, if_exists='append', index=False)
                         conn.commit()
-                        st.success("✅ Review saved successfully!")
+                        st.success("Review saved successfully!")
                         st.rerun()
     
     
@@ -776,17 +805,17 @@ else:
             if role == "Job Seeker":
                 col1, col2 = st.columns([1,2])
                 with col1:
-                    st.markdown("### 📸 " + t("profile_photo"))
+                    st.markdown("### " + t("profile_photo"))
                     if user.get('work_image'):
                         st.image(io.BytesIO(user['work_image']), width=250)
                     else:
                         st.markdown("""
                         <div style='width:250px;height:250px;background:#e3f2fd;border-radius:20px;
                         display:flex;align-items:center;justify-content:center;font-size:60px;color:#1976d2'>
-                        📸</div>""", unsafe_allow_html=True)
+                        </div>""", unsafe_allow_html=True)
                 
                 with col2:
-                    st.markdown("### 👤 " + t("personal_details"))
+                    st.markdown("### " + t("personal_details"))
                     st.markdown(f"""
                     <div style='background:#e3f2fd;padding:25px;border-radius:15px;box-shadow:0 8px 32px rgba(0,0,0,0.1);'>
                         <h3 style='color:#1976d2'>{user.get('name', 'N/A')}</h3>
@@ -799,7 +828,7 @@ else:
                 
                 col1, col2 = st.columns(2)
                 with col1:
-                    st.markdown("### 🔧 " + t("skills"))
+                    st.markdown("### " + t("skills"))
                     skills = user.get('skills', '')
                     if skills:
                         for skill in [s.strip() for s in skills.split(',')][:10]:
@@ -807,23 +836,23 @@ else:
                     else:
                         st.warning(t("add_skills"))
                 
-                    st.markdown("### 💼 " + t("experience"))
+                    st.markdown("### " + t("experience"))
                     exp = user.get('experience', '')
                     st.markdown(f"**{exp[:400]}**..." if exp else t("add_experience"))
 
                 st.markdown("---")
-                st.markdown("### ⭐ Ratings & Reviews")
+                st.markdown("### Ratings & Reviews")
                 reviews_df = pd.read_sql("SELECT rating, review, timestamp, creator_mobile FROM reviews WHERE seeker_mobile=?", conn, params=(user['mobile'],))
                 if not reviews_df.empty:
                     avg_rating = reviews_df['rating'].mean()
-                    st.markdown(f"**Average Rating:** {'⭐' * int(avg_rating)} ({avg_rating:.1f}/5.0 from {len(reviews_df)} reviews)")
+                    st.markdown(f"**Average Rating:** {'★' * int(avg_rating)} ({avg_rating:.1f}/5.0 from {len(reviews_df)} reviews)")
                     
                     for _, row in reviews_df.iterrows():
                         creator = find_user(row['creator_mobile'])
                         creator_name = creator['name'] if creator else "Unknown Creator"
                         st.markdown(f"""
                         <div style='background:#f9f9f9;padding:15px;border-radius:10px;margin-bottom:10px;border-left:4px solid #ffc107'>
-                            <strong>{creator_name}</strong> - {'⭐' * int(row['rating'])}<br>
+                            <strong>{creator_name}</strong> - {'★' * int(row['rating'])}<br>
                             <em>{row['review']}</em><br>
                             <small style='color:gray'>{row['timestamp'][:10]}</small>
                         </div>
@@ -834,11 +863,11 @@ else:
             else:
                 col1, col2 = st.columns([1,3])
                 with col1:
-                    st.markdown("### 🏢 " + t("profile_photo"))
-                    st.markdown("<div style='width:250px;height:250px;background:#f3e5f5;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:60px;color:#7b1fa2'>🏢</div>", unsafe_allow_html=True)
+                    st.markdown("### " + t("profile_photo"))
+                    st.markdown("<div style='width:250px;height:250px;background:#f3e5f5;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:60px;color:#7b1fa2'></div>", unsafe_allow_html=True)
                 
                 with col2:
-                    st.markdown("### 👨💼 " + t("personal_details"))
+                    st.markdown("### " + t("personal_details"))
                     st.markdown(f"""
                     <div style='background:#f3e5f5;padding:25px;border-radius:15px;box-shadow:0 8px 32px rgba(0,0,0,0.1);'>
                         <h3 style='color:#7b1fa2'>{user.get('name', 'N/A')}</h3>
@@ -860,11 +889,11 @@ else:
                     with col2:
                         new_experience = st.text_area(t("experience"), value=user.get('experience', ''), placeholder="2 years experience...")
                     
-                    new_work_photo = st.file_uploader("🔄 " + t("work_photo"), type=['jpg','png','jpeg'])
+                    new_work_photo = st.file_uploader(t("work_photo"), type=['jpg','png','jpeg'])
                     if new_work_photo:
                         st.image(new_work_photo, caption=t("preview"), width=200)
                     
-                    submitted = st.form_submit_button("💾 " + t("update_success"), use_container_width=True)
+                    submitted = st.form_submit_button(t("update_success"), use_container_width=True)
                     
                     if submitted:
                         update_data = {
@@ -901,11 +930,11 @@ else:
 
     #JOB SEEKER MATCHING
     elif menu == t("matching") and role == "Job Seeker":
-        st.header("🎯 " + t("matching"))
+        st.header(t("matching"))
         matches = get_smart_matches(st.session_state.user)
         
         if matches:
-            st.success(f"🎉 **{len(matches)} {t('perfect_matches')}**")
+            st.success(f"**{len(matches)} {t('perfect_matches')}**")
             for i, match in enumerate(matches):
                 if match['type'] == 'job':
                     job = match['job']
@@ -915,14 +944,14 @@ else:
                     st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
                     col1, col2 = st.columns([3,1])
                     with col1:
-                        st.markdown(f"<h3 style='margin:0;'>💼 {job['title']}</h3>", unsafe_allow_html=True)
+                        st.markdown(f"<h3 style='margin:0;'>{job['title']}</h3>", unsafe_allow_html=True)
                         st.markdown(f"<p style='color:gray; font-size:14px;'> {creator.get('name', 'Unknown')}</p>", unsafe_allow_html=True)
-                        st.markdown(f"📍 **{job['location']}** &nbsp;|&nbsp; **{job['salary']}**")
+                        st.markdown(f"**{job['location']}** &nbsp;|&nbsp; **{job['salary']}**")
                         st.markdown(f"<div style='margin-top:10px;'>{skills_html}</div>", unsafe_allow_html=True)
                     with col2:
                         st.metric(t("score"), match['score'])
                         if creator and creator.get('mobile'):
-                            if st.button(f"💬 {t('chat')}", key=f"chat_job_seeker_{i}", use_container_width=True):
+                            if st.button(t('chat'), key=f"chat_job_seeker_{i}", use_container_width=True):
                                 st.session_state.current_chat = {
                                     'other_user': creator,
                                     'job_id': job['id'],
@@ -930,7 +959,7 @@ else:
                                 }
                                 st.rerun()
                         else:
-                            st.warning("❌ Invalid creator")
+                            st.warning("Invalid creator")
                     st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.info(t("no_matches"))
@@ -940,7 +969,7 @@ else:
         r_seeker = st.session_state.reviewing_job['seeker']
 
         st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
-        st.markdown("### ⭐ Job Completion & Review")
+        st.markdown("### Job Completion & Review")
         with st.form("completion_review_form"):
             st.write(f"Please provide a review for **{r_seeker.get('name', 'Seeker')}** to mark this job as finished.")
             rating = st.slider("Rating (1-5)", 1, 5, 5)
@@ -961,7 +990,7 @@ else:
                 }]).to_sql('reviews', conn, if_exists='append', index=False)
                 finish_job_status(r_job_id, r_seeker['mobile'])
                 st.session_state.reviewing_job = None
-                st.success("✅ Job Finished and Review saved successfully!")
+                st.success("Job Finished and Review saved successfully!")
                 st.rerun()
             if cancel:
                 st.session_state.reviewing_job = None
@@ -971,7 +1000,7 @@ else:
 
     #FILTER MODULE
     elif menu == t("filter_module") and role == "Job Creator":
-        st.header("🔍 " + t("filter_module"))
+        st.header(t("filter_module"))
         f_col1, f_col2 = st.columns(2)
         with f_col1:
             filter_location = st.text_input("Filter Location (e.g. Chennai)")
@@ -991,7 +1020,7 @@ else:
         my_jobs = pd.read_sql("SELECT id, title FROM jobs WHERE creator=?", conn, params=(st.session_state.user['mobile'],))
         
         if not seekers_df.empty:
-            st.success(f"🎉 **Found {len(seekers_df)} Job Seekers!**")
+            st.success(f"**Found {len(seekers_df)} Job Seekers!**")
             
             for seeker_idx, seeker_row in seekers_df.iterrows():
                 seeker = seeker_row.to_dict()
@@ -999,12 +1028,12 @@ else:
                 
                 col1, col2, col3 = st.columns([1,4,3])
                 with col1:
-                    st.markdown("<div style='font-size:40px;text-align:center;'>👤</div>", unsafe_allow_html=True)
+                    st.markdown("<div style='font-size:40px;text-align:center;'></div>", unsafe_allow_html=True)
                 with col2:
-                    st.markdown(f"**{seeker.get('name', 'Unknown')}** | 📞 {mask_contact(seeker.get('mobile'))}<br>📍 {seeker.get('location', 'N/A')} | 🔧 {seeker.get('skills', 'N/A')[:50]}", unsafe_allow_html=True)
+                    st.markdown(f"**{seeker.get('name', 'Unknown')}** | {mask_contact(seeker.get('mobile'))}<br>{seeker.get('location', 'N/A')} | {seeker.get('skills', 'N/A')[:50]}", unsafe_allow_html=True)
                 
                 with col3:
-                    if st.button("💬 Chat", key=f"chat_glb_{seeker_idx}", use_container_width=True):
+                    if st.button("Chat", key=f"chat_glb_{seeker_idx}", use_container_width=True):
                         st.session_state.current_chat = {
                             'other_user': seeker, 
                             'job_id': 0, 
@@ -1017,35 +1046,35 @@ else:
 
     #JOB CREATOR MATCHES
     elif menu == t("my_matches") and role == "Job Creator":
-        st.header("🎯 " + t("my_matches"))
+        st.header(t("my_matches"))
         job_matches = get_job_creator_matches(st.session_state.user['mobile'])
         
         if job_matches:
-            st.success(f"🎉 **{len(job_matches)} {t('perfect_matches')}**")
+            st.success(f"**{len(job_matches)} {t('perfect_matches')}**")
             for job_idx, job_match in enumerate(job_matches):
                 job = job_match['job']
                 seekers = job_match['seekers']
                 skills_html = " ".join([f"<span class='skill-tag'>{s.strip()}</span>" for s in job['skills'].split(',') if s.strip()])
                 
                 st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
-                st.markdown(f"<h3 style='margin:0;'>💼 {job['title']}</h3>", unsafe_allow_html=True)
-                st.markdown(f"📍 **{job['location']}** &nbsp;|&nbsp; 💰 **{job['salary']}**")
+                st.markdown(f"<h3 style='margin:0;'>{job['title']}</h3>", unsafe_allow_html=True)
+                st.markdown(f"**{job['location']}** &nbsp;|&nbsp; **{job['salary']}**")
                 st.markdown(f"<div style='margin-top:10px;'>{skills_html}</div>", unsafe_allow_html=True)
                 
-                st.markdown(f"#### 👥 **{len(seekers)} {t('matched_seekers')}**")
+                st.markdown(f"#### **{len(seekers)} {t('matched_seekers')}**")
                 for seeker_idx, seeker_match in enumerate(seekers):
                     seeker = seeker_match['seeker']
                     score = seeker_match['score']
                     hired_status = get_hired_status(job['id'], seeker['mobile'])
                     
                     c1, c2, c3 = st.columns([1,4,2])
-                    with c1: st.markdown("<div style='font-size:40px;text-align:center;'>👤</div>", unsafe_allow_html=True)
+                    with c1: st.markdown("<div style='font-size:40px;text-align:center;'></div>", unsafe_allow_html=True)
                     with c2: 
-                        st.markdown(f"**{seeker.get('name', 'Unknown')}** | 📞 {mask_contact(seeker.get('mobile'))}")
+                        st.markdown(f"**{seeker.get('name', 'Unknown')}** | {mask_contact(seeker.get('mobile'))}")
                         if hired_status == 'hired':
-                            st.markdown("<span style='color:#10b981;font-weight:bold;background:#d1fae5;padding:3px 8px;border-radius:5px;'>✅ Hired for this Job</span>", unsafe_allow_html=True)
+                            st.markdown("<span style='color:#10b981;font-weight:bold;background:#d1fae5;padding:3px 8px;border-radius:5px;'>Hired for this Job</span>", unsafe_allow_html=True)
                         elif hired_status == 'finished':
-                            st.markdown("<span style='color:#f59e0b;font-weight:bold;background:#fef3c7;padding:3px 8px;border-radius:5px;'>🌟 Job Completed</span>", unsafe_allow_html=True)
+                            st.markdown("<span style='color:#f59e0b;font-weight:bold;background:#fef3c7;padding:3px 8px;border-radius:5px;'>Job Completed</span>", unsafe_allow_html=True)
                             
                     with c3:
                         st.metric(t("score"), score)
@@ -1053,21 +1082,21 @@ else:
                         if not hired_status:
                             c_btn1, c_btn2 = st.columns(2)
                             with c_btn1:
-                                if st.button("🤝 Hire", key=f"hire_my_{job['id']}_{seeker_idx}", use_container_width=True):
+                                if st.button("Hire", key=f"hire_my_{job['id']}_{seeker_idx}", use_container_width=True):
                                     hire_seeker(job['id'], seeker['mobile'])
                                     st.rerun()
                             with c_btn2:
-                                if st.button("💬 Chat", key=f"chat_my_{job['id']}_{seeker_idx}", use_container_width=True):
+                                if st.button("Chat", key=f"chat_my_{job['id']}_{seeker_idx}", use_container_width=True):
                                     st.session_state.current_chat = {'other_user': seeker, 'job_id': job['id'], 'job_title': job['title']}
                                     st.rerun()
                         elif hired_status == 'hired':
                             c_btn1, c_btn2 = st.columns(2)
                             with c_btn1:
-                                if st.button("🏁 Finish", key=f"fin_my_{job['id']}_{seeker_idx}", use_container_width=True):
+                                if st.button("Finish", key=f"fin_my_{job['id']}_{seeker_idx}", use_container_width=True):
                                     st.session_state.reviewing_job = {'job_id': job['id'], 'seeker': seeker}
                                     st.rerun()
                             with c_btn2:
-                                if st.button("💬 Chat", key=f"chat_hired_my_{job['id']}_{seeker_idx}", use_container_width=True):
+                                if st.button("Chat", key=f"chat_hired_my_{job['id']}_{seeker_idx}", use_container_width=True):
                                     st.session_state.current_chat = {'other_user': seeker, 'job_id': job['id'], 'job_title': job['title']}
                                     st.rerun()
                 st.markdown("</div>", unsafe_allow_html=True)
@@ -1076,7 +1105,7 @@ else:
 
     #MY POSTED JOBS
     elif menu == t("my_posted_jobs") and role == "Job Creator":
-        st.header("💼 " + t("my_posted_jobs"))
+        st.header(t("my_posted_jobs"))
         jobs = get_posted_jobs(st.session_state.user['mobile'])
         if not jobs.empty:
             for idx, job in jobs.iterrows():
@@ -1085,12 +1114,12 @@ else:
                     st.markdown(f"""
                     <div style='background:#fff3e0;padding:20px;border-radius:15px;margin:10px 0;border-left:5px solid #ff9800;box-shadow:0 4px 12px rgba(0,0,0,0.1)'>
                     <h4><strong>{job['title']}</strong></h4>
-                    <p><strong>{t('salary')}</strong> {job['salary']} | <strong>📍 {t('location')}</strong> {job['location']}</p>
+                    <p><strong>{t('salary')}</strong> {job['salary']} | <strong>{t('location')}</strong> {job['location']}</p>
                     <p><strong>{t('skills_req')}</strong> {job['skills']}</p>
                     <small>{job['created_at'][:10]}</small>
                     </div>""", unsafe_allow_html=True)
                 with col2:
-                    if st.button("🗑️", key=f"del_job_{job['id']}", help=t("delete"), use_container_width=True):
+                    if st.button("Delete", key=f"del_job_{job['id']}", help=t("delete"), use_container_width=True):
                         success, msg = delete_job(job['id'], st.session_state.user['mobile'])
                         if success:
                             st.success(msg)
@@ -1102,7 +1131,7 @@ else:
 
     # POST JOB
     elif menu == t("post_job"):
-        st.header("💼 " + t("post_job"))
+        st.header(t("post_job"))
         with st.form("post_job_form"):
             col1, col2 = st.columns(2)
             with col1:
@@ -1112,7 +1141,7 @@ else:
                 salary = st.text_input(t("salary"), placeholder="1000/{t('day')}")
                 location = st.text_input(t("location"), placeholder="Chennai")
             
-            submitted = st.form_submit_button("✅ " + t("post_job"), use_container_width=True)
+            submitted = st.form_submit_button(t("post_job"), use_container_width=True)
             if submitted:
                 save_job({
                     'creator': st.session_state.user['mobile'],
@@ -1123,7 +1152,7 @@ else:
 
     #ADMIN FILTER MODULE
     elif menu == t("filter_module") and role == "Admin":
-        st.header("🔍 " + t("filter_module"))
+        st.header(t("filter_module"))
         st.markdown("<div class='custom-card'>", unsafe_allow_html=True)
         f_col1, f_col2, f_col3 = st.columns(3)
         with f_col1:
@@ -1168,25 +1197,25 @@ else:
 
     #ADMIN DASHBOARD
     elif menu == t("admin_dashboard"):
-        st.header("📈 " + t("admin_dashboard"))
+        st.header(t("admin_dashboard"))
         col1, col2, col3 = st.columns(3)
         total_users = len(pd.read_sql("SELECT * FROM users", conn))
         total_jobs = len(pd.read_sql("SELECT * FROM jobs", conn))
         with col1: 
-            st.markdown(f"<div class='custom-card' style='text-align:center;border-top-color:#8b5cf6;'><h2>👥 {total_users}</h2><p>{t('total_users')}</p></div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='custom-card' style='text-align:center;border-top-color:#8b5cf6;'><h2>{total_users}</h2><p>{t('total_users')}</p></div>", unsafe_allow_html=True)
         with col2: 
-            st.markdown(f"<div class='custom-card' style='text-align:center;border-top-color:#ec4899;'><h2>💼 {total_jobs}</h2><p>{t('total_jobs')}</p></div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='custom-card' style='text-align:center;border-top-color:#ec4899;'><h2>{total_jobs}</h2><p>{t('total_jobs')}</p></div>", unsafe_allow_html=True)
         with col3: 
-            st.markdown(f"<div class='custom-card' style='text-align:center;border-top-color:#10b981;'><h2>🔥 Live</h2><p>Matches</p></div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='custom-card' style='text-align:center;border-top-color:#10b981;'><h2>Live</h2><p>Matches</p></div>", unsafe_allow_html=True)
             
         col1, col2 = st.columns(2)
         with col1:
-            st.subheader("📋 " + t("recent_jobs"))
+            st.subheader(t("recent_jobs"))
             recent_jobs = pd.read_sql("SELECT * FROM jobs ORDER BY id DESC LIMIT 10", conn)
             st.dataframe(recent_jobs, use_container_width=True)
             
         with col2:
-            st.subheader("👥 Recent " + t("users"))
+            st.subheader("Recent " + t("users"))
             users_list = pd.read_sql("SELECT mobile, name, role, location, skills FROM users ORDER BY created_at DESC LIMIT 10", conn)
             st.dataframe(users_list, use_container_width=True)
 
@@ -1195,12 +1224,12 @@ else:
         schemes_df = load_schemes()
         
         if role == "Admin":
-            st.header("🏛️ " + t("gov_schemes") + " - Admin Panel")
+            st.header(t("gov_schemes") + " - Admin Panel")
             
             tab1, tab2 = st.tabs([t("add_scheme"), t("all_schemes")])
             
             with tab1:
-                st.subheader("➕ " + t("add_scheme"))
+                st.subheader(t("add_scheme"))
                 with st.form("add_scheme_form"):
                     col1, col2 = st.columns(2)
                     with col1:
@@ -1210,53 +1239,53 @@ else:
                         description = st.text_area(t("description"), max_chars=200)
                         benefits = st.text_area(t("benefits"), max_chars=200)
                     
-                    submitted = st.form_submit_button("💾 Save Scheme", use_container_width=True)
+                    submitted = st.form_submit_button("Save Scheme", use_container_width=True)
                     if submitted:
                         new_scheme = pd.DataFrame({
                             'name': [name], 'trade': [trade], 'description': [description], 'benefits': [benefits]
                         })
                         schemes_df = pd.concat([schemes_df, new_scheme], ignore_index=True)
                         save_scheme(schemes_df)
-                        st.success("✅ Scheme added successfully!")
+                        st.success("Scheme added successfully!")
                         st.rerun()
             
             with tab2:
-                st.subheader("📋 " + t("all_schemes"))
+                st.subheader(t("all_schemes"))
                 cols = st.columns(2)
                 for idx, row in schemes_df.iterrows():
                     with cols[idx % 2]:
                         st.markdown(f"""
                         <div class='custom-card'>
-                            <h4 style='color:#1976d2;margin-top:0;'>🏛️ {row['name']}</h4>
+                            <h4 style='color:#1976d2;margin-top:0;'>{row['name']}</h4>
                             <p style='margin-bottom:5px;'><strong>{t('trade')}:</strong> {row['trade']}</p>
                             <p style='font-size:14px;'>{row['description']}</p>
                             <div style='background:#f5f5f5;padding:10px;border-radius:8px;font-size:13px;'>
                                 <strong>{t('benefits')}:</strong><br>{row['benefits']}
                             </div>
                         </div>""", unsafe_allow_html=True)
-                        if st.button(f"🗑️ {t('delete')}", key=f"del_{idx}"):
+                        if st.button(t('delete'), key=f"del_{idx}"):
                             try:
                                 schemes_df = schemes_df.drop(idx).reset_index(drop=True)  # ✅ SAFE NOW
                                 save_scheme(schemes_df)
-                                st.success("✅ Scheme deleted!")
+                                st.success("Scheme deleted!")
                                 st.rerun()
                             except Exception as e:
-                                st.error(f"❌ Delete failed: {str(e)}")
+                                st.error(f"Delete failed: {str(e)}")
         
         else:  
-            st.header("🏛️ " + t("gov_schemes"))
+            st.header(t("gov_schemes"))
             search_query = st.text_input(t("search_schemes"), placeholder="carpenter, tailor, plumber...")
             
             if search_query:
                 matching_schemes = find_schemes(search_query, schemes_df)
                 if not matching_schemes.empty:
-                    st.success(f"🎉 **{len(matching_schemes)}** schemes found!")
+                    st.success(f"**{len(matching_schemes)}** schemes found!")
                     cols = st.columns(2)
                     for idx, scheme in matching_schemes.reset_index(drop=True).iterrows():
                         with cols[idx % 2]:
                             st.markdown(f"""
                             <div class='custom-card' style='border-top-color:#4caf50;'>
-                                <h3 style='color:#388e3c;margin-top:0;'>🏛️ {scheme['name']}</h3>
+                                <h3 style='color:#388e3c;margin-top:0;'>{scheme['name']}</h3>
                                 <p style='margin-bottom:5px;'><span class='skill-tag'>{scheme['trade']}</span></p>
                                 <p style='font-size:14px;color:#555;'>{scheme['description']}</p>
                                 <div style='background:#e8f5e9;padding:10px;border-radius:8px;font-size:13px;'>
@@ -1266,5 +1295,5 @@ else:
                 else:
                     st.info(t("no_schemes"))
             else:
-                st.info("🔍 " + t("search_schemes") + " " + t("trade") + "...")
+                st.info(t("search_schemes") + " " + t("trade") + "...")
 
